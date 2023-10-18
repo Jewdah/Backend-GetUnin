@@ -1,13 +1,13 @@
-package getunin.example.Backend.GetUnin;
+package com.getunin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendGetUninApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendGetUninApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

@@ -1,10 +1,10 @@
-package getunin.example.Backend.GetUnin;
+package com.getunin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendGetUninApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {
