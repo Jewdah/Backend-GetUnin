@@ -29,10 +29,6 @@ public class Parameter {
     @JoinColumn(name = "parameter_relationship")
     private Parameter parameterRelationShip;
 
-    @OneToOne
-    @JoinColumn(name = "updater")
-    private  User updater;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-CO", timezone = "America/Bogota")
     @Column(name = "update_date")
     private Timestamp updateDate;
