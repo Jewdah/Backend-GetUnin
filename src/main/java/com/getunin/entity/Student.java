@@ -18,8 +18,4 @@ public class Student {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private PiaTeam team;
-
 }

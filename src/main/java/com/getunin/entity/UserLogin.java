@@ -19,7 +19,7 @@ public class UserLogin {
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "user_login")
+    @JoinColumn(name = "user_id")
     private User userLogin;
 
 }

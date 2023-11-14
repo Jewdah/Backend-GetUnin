@@ -17,6 +17,23 @@ public class PiaTeam {
     @Column(name = "name_proyect")
     private String nameProyect;
 
-    @Column(name = "type_proyect")
-    private String typeProyect;
+    @Column(name = "description")
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "type_proyect")
+    private Parameter typeProyect;
+
+    @ManyToOne
+    @JoinColumn(name = "student_one")
+    private Student studentOne;
+
+    @ManyToOne
+    @JoinColumn(name = "student_two")
+    private Student studentTwo;
+
+    @ManyToOne
+    @JoinColumn(name = "student_three")
+    private Student studentThree;
+
 }

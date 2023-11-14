@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2><span>Hola de nuevo </span><span th:text="${userName}"></span></h2>
+<br><h3>Su código para recuperar la contraseña es el siguiente: </h3>
+<p><span>Código de seguridad: </span></span><span th:text="${password}"></span></p>
+<h4>Haz click en el siguiente enlace e ingresa el código y sigue los pasos para reestablecer la contraseña </h4>
+<a th:href="@{${url}}"><button>Codigo de seguridad</button></a><br><br>
+</body>
+</html>
