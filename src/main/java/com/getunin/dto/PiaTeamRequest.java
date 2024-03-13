@@ -24,4 +24,6 @@ public class PiaTeamRequest {
     private Student studentTwo;
 
     private Student studentThree;
+
+    private String emailTo;
 }

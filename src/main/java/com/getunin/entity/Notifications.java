@@ -28,7 +28,7 @@ public class Notifications {
     private User userTo;
 
     @ManyToOne
-    @JoinColumn(name = "user_to")
+    @JoinColumn(name = "user_Recovery")
     private User userRecovery;
 
     private Boolean status;

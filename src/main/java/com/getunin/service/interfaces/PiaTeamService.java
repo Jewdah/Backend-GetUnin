@@ -16,7 +16,7 @@ public interface PiaTeamService {
     PiaTeam getPiaTeamByName(String name);
     ResponseMessage deletePiaById(Long id);
 
-    ResponseMessage inviteStudentsToProject(String email, PiaTeam team);
+    ResponseMessage inviteStudentsToProject(String email, PiaTeamRequest team);
     ResponseMessage acceptInvitation(PiaTeam team, Student studentRequest);
 
     List<PiaTeam> getAllPiaTeamByObject(PiaTeamRequest request,Long id);

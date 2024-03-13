@@ -31,6 +31,11 @@ public class PiaTeamController {
         return ResponseEntity.ok(piaTeamService.getPiaTeamById(id));
     }
 
+    @PostMapping("/invite")
+    public ResponseEntity<Object> invitePiaTeam(@Valid @RequestBody PiaTeamRequest request){
+        return ResponseEntity.ok(piaTeamService.inviteStudentsToProject(request.getEmailTo(),request));
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deletePiaTeamById(@PathVariable Long id){
         return ResponseEntity.ok(piaTeamService.deletePiaById(id));

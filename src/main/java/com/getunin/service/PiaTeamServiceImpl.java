@@ -10,6 +10,7 @@ import com.getunin.repository.PiaTeamRepository;
 import com.getunin.service.interfaces.NotificationService;
 import com.getunin.service.interfaces.PiaTeamService;
 import com.getunin.service.interfaces.StudentService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class PiaTeamServiceImpl implements PiaTeamService {
 
     private final NotificationService notificationService;
 
-    public PiaTeamServiceImpl(PiaTeamRepository piaTeamRepository, StudentService studentService, NotificationService notificationService) {
+    public PiaTeamServiceImpl(PiaTeamRepository piaTeamRepository, StudentService studentService, @Lazy NotificationService notificationService) {
         this.piaTeamRepository = piaTeamRepository;
         this.studentService = studentService;
         this.notificationService = notificationService;
@@ -65,6 +66,8 @@ public class PiaTeamServiceImpl implements PiaTeamService {
             piaTeam.setDescription(request.getDescription());
             piaTeam.setNameProyect(request.getNameProyect());
             piaTeam.setTypeProyect(request.getTypeProyect());
+            piaTeam.setStudentTwo(request.getStudentTwo());
+            piaTeam.setStudentThree(request.getStudentThree());
 
             return piaTeamRepository.save(piaTeam);
 
@@ -112,19 +115,20 @@ public class PiaTeamServiceImpl implements PiaTeamService {
     }
 
     @Override
-    public ResponseMessage inviteStudentsToProject(String email, PiaTeam team){
+    public ResponseMessage inviteStudentsToProject(String email, PiaTeamRequest team){
+        PiaTeam piaTeam = getPiaTeamByName(team.getNameProyect());
         Student student = studentService.getStudentByEmail(email);
 
-        notificationService.sendNotificationOfProject(team,student);
+        notificationService.sendNotificationOfProject(piaTeam,student);
 
         return new ResponseMessage("Invitación de proyecto enviada");
     }
 
     @Override
     public ResponseMessage acceptInvitation(PiaTeam team, Student studentRequest){
-        Student student = studentService.getStudentByEmail(email);
 
-        notificationService.sendNotificationOfProject(team,student);
+
+        notificationService.sendNotificationOfProject(team,studentRequest);
 
         return new ResponseMessage("Invitación de proyecto enviada");
     }
