@@ -1,18 +1,17 @@
 package com.getunin.entity;
 
-
 import lombok.Data;
 
 import javax.persistence.*;
 
-@Data
 @Entity
-@Table(name = "tbl_coordinator")
-public class Coordinator {
+@Data
+@Table(name = "tbl_educator")
+public class Educator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coordinator_id")
+    @Column(name = "educator_id")
     private Long id;
 
     @OneToOne

@@ -47,10 +47,8 @@ public class StudentRequest {
     @Pattern(regexp = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$", message = "{pattern.Email}")
     private String email;
 
-    @NotNull(message = "{notNull.Status}")
     private Parameter status;
 
-    @NotNull(message = "{notNull.RollId}")
     private Parameter roleId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-CO", timezone = "America/Bogota")

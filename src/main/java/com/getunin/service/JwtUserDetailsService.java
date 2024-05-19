@@ -2,7 +2,6 @@ package com.getunin.service;
 
 import com.getunin.configuration.MailSenderConfig;
 import com.getunin.dto.CreateUserLoginRequest;
-import com.getunin.dto.EmailContent;
 import com.getunin.dto.JwtRequest;
 import com.getunin.entity.Parameter;
 import com.getunin.entity.User;
@@ -11,6 +10,7 @@ import com.getunin.exception.listexceptions.ConflictException;
 import com.getunin.exception.listexceptions.NotFoundException;
 import com.getunin.repository.UserLoginRepository;
 import com.getunin.repository.UserRepository;
+import com.getunin.service.interfaces.ExceptionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -51,13 +51,16 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public JwtUserDetailsService(UserLoginRepository userLoginRepository, MessageSource messageSource, EmailService emailService, UserRepository repository, PasswordEncoder bcryptEncoder, MailSenderConfig mailSenderConfig, UserRepository userRepository) {
+    private final ExceptionService exceptionService;
+
+    public JwtUserDetailsService(UserLoginRepository userLoginRepository, MessageSource messageSource, EmailService emailService, UserRepository repository, PasswordEncoder bcryptEncoder, MailSenderConfig mailSenderConfig, UserRepository userRepository, ExceptionService exceptionService) {
         this.userLoginRepository = userLoginRepository;
 
         this.messageSource = messageSource;
         this.repository = repository;
         this.bcryptEncoder = bcryptEncoder;
         this.userRepository = userRepository;
+        this.exceptionService = exceptionService;
     }
 
     @Override
@@ -76,8 +79,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         if (userDb.isPresent() && userDbEmail.isPresent()) {
             if (!Objects.equals(userDb.get().getId(), userDbEmail.get().getId())) {
+                exceptionService.createException(userDbEmail.get().getId(), String.valueOf(ConflictException.class),"CreateUser",user);
                 throw new ConflictException(messageSource.getMessage("email.User.Exist", null,"", LocaleContextHolder.getLocale()));
             }else if (!Objects.equals(userDb.get().getStatus().getId(), disable) || !Objects.equals(userDb.get().getStatus().getId(), delete)) {
+                exceptionService.createException(userDb.get().getId(), String.valueOf(ConflictException.class),"CreateUser",user);
                 throw new ConflictException(messageSource.getMessage("user.Exist",null, "", LocaleContextHolder.getLocale()));
             }else {
                 User userTop = repository.save(jwtUserRequest(user,userDb.get()));
@@ -88,6 +93,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             }
         }else if (userDb.isPresent()) {
             if (!Objects.equals(userDb.get().getStatus().getId(), disable) || !Objects.equals(userDb.get().getStatus().getId(), delete)) {
+                exceptionService.createException(userDb.get().getId(), String.valueOf(ConflictException.class),"CreateUser",user);
                 throw new ConflictException(messageSource.getMessage("user.Exist",null, "", LocaleContextHolder.getLocale()));
             }else {
                 User userTop = repository.save(jwtUserRequest(user,userDb.get()));
@@ -98,6 +104,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             }
         } else if (userDbEmail.isPresent()) {
             if (!Objects.equals(userDbEmail.get().getStatus().getId(), disable) || !Objects.equals(userDbEmail.get().getStatus().getId(), delete)) {
+                exceptionService.createException(userDbEmail.get().getId(), String.valueOf(ConflictException.class),"CreateUser",user);
                 throw new ConflictException(messageSource.getMessage("user.Exist",null, "", LocaleContextHolder.getLocale()));
             }else {
 
@@ -148,9 +155,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
                         return repository.save(userUpdate);
                     }else {
+                        exceptionService.createException(userEmail.get().getId(), String.valueOf(ConflictException.class),"UpdateUserGeneral",request);
                         throw new ConflictException(messageSource.getMessage("email.Exist",null,"",LocaleContextHolder.getLocale()));
                     }
                 }else {
+                    exceptionService.createException(userEmail.get().getId(), String.valueOf(ConflictException.class),"UpdateUserGeneral",request);
                     throw new ConflictException(messageSource.getMessage("number.User.Exist",null,"",LocaleContextHolder.getLocale()));
                 }
             } else if (userDb.isPresent()) {
@@ -173,6 +182,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                     createUserLogin(new CreateUserLoginRequest(userTop.getEmail(),userTop.getIdentification()),userTop);
                     return userTop;
                 }else {
+                    exceptionService.createException(userDb.get().getId(), String.valueOf(NotFoundException.class),"UpdateUserGeneral",request);
                     throw new NotFoundException(messageSource.getMessage("number.User.Exist",null,"", LocaleContextHolder.getLocale()));
                 }
             }else if (userEmail.isPresent()) {
@@ -196,6 +206,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
                     return repository.save(userUpdate);
                 }else {
+                    exceptionService.createException(userEmail.get().getId(), String.valueOf(NotFoundException.class),"UpdateUserGeneral",request);
                     throw new NotFoundException(messageSource.getMessage("EMAIL.USER.EXIST",null,"", LocaleContextHolder.getLocale()));
                 }
             }else {
@@ -223,6 +234,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 return repository.save(userUpdate);
             }
         }else {
+            exceptionService.createException(0L, String.valueOf(NotFoundException.class),"UpdateUserGeneral",request);
             throw new NotFoundException(messageSource.getMessage("user.Not.Found",null,"", LocaleContextHolder.getLocale()));
         }
     }

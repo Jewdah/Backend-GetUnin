@@ -95,7 +95,7 @@ public class StudentServiceImpl implements StudentService {
         jwtRequest.setLastName(request.getLastName());
         jwtRequest.setPhoneNumber(request.getPhoneNumber());
         jwtRequest.setEmail(request.getEmail());
-        jwtRequest.setStatus(request.getStatus());
+        jwtRequest.setStatus(new Parameter(10L));
         jwtRequest.setRoleId(new Parameter(12L));
         java.util.Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
