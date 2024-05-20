@@ -4,7 +4,7 @@ pipeline{
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker-compose -f /var/jenkins_home/workspace/backend-genin/docker-compose.yml up -d'
+                    sh 'docker-compose.yml up -d'
                 }
             }
         }
