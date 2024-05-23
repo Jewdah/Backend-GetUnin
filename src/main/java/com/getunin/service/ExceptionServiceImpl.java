@@ -35,5 +35,6 @@ public class ExceptionServiceImpl implements ExceptionService {
         restTemplate.postForObject(url, entity, String.class);
 
         return new ResponseMessage("Excepción registrada");
+
     }
 }
